@@ -76,7 +76,7 @@ Report the pack release version, exact mod mismatch message, and relevant log ex
 
 ## Changing mods with Packwiz
 
-Use Go 1.25+ and Python 3.11+ (or Python 3.9+ with `tomli`). Install the pinned Packwiz revision:
+Use Go 1.25+ and Python 3.11+ (or Python 3.8+ with `tomli`). Install the pinned Packwiz revision:
 
 ```sh
 scripts/install-packwiz.sh
@@ -101,7 +101,7 @@ Commit the metadata and config changes, open a PR, and wait for CI. Test the ima
 
 [Packwiz's CurseForge export](https://packwiz.infra.link/tutorials/hosting/curseforge/) emits pinned file references for CurseForge mods. Our exporter verifies all twelve references, versions and sides, and rejects any JAR bundled in the ZIP or unexpected overrides. Friends import one ZIP; CurseForge downloads the files. If a mod becomes unavailable, the workflow fails; do not silently omit or replace it.
 
-Server downloads use the public CurseForge CDN path for each pinned file and verify its Packwiz checksum. No binary mods are committed or redistributed in GHCR. This does not assert a blanket license to redistribute individual mods. If a project's author disables distribution or a file disappears, installation/validation fails; obtain permission or deliberately review a supported alternative. Do not bypass access restrictions or manually bundle such files. Project/file IDs and exact hashes are pinned; the upstream Java 17 multi-architecture base is pinned by manifest digest. OS package installation and Forge/Mojang downloads are network-dependent, so this is a repeatable, integrity-checked pack build rather than a byte-for-byte offline build.
+Server downloads use the public CurseForge CDN path for each pinned file and verify its Packwiz checksum. No binary mods are committed or redistributed in GHCR. This does not assert a blanket license to redistribute individual mods. If a project's author disables distribution or a file disappears, installation/validation fails; obtain permission or deliberately review a supported alternative. Do not bypass access restrictions or manually bundle such files. Project/file IDs and exact hashes are pinned; the upstream Java 17 multi-architecture base (2026.9.2-java17) is pinned by manifest digest and the TOML parser wheel is pinned by version and SHA-256. OS package installation and Forge/Mojang downloads are network-dependent, so this is a repeatable, integrity-checked pack build rather than a byte-for-byte offline build.
 
 ## Import findings and validation limits
 
