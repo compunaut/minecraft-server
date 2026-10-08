@@ -1,0 +1,97 @@
+hash-format = "sha256"
+
+[[files]]
+file = "config/combat_evolution-common.toml"
+hash = "c3d8c1546b6a7fe72ab5192516b42791f8fb49992443923c4d215449160b3fe3"
+
+[[files]]
+file = "config/efclash_blade-server.toml"
+hash = "2ea360493b88fcb2a3235b0c231a1ef1a6b5b1b476c47b8c64346f2c3a256d19"
+
+[[files]]
+file = "config/efx-common.toml"
+hash = "c18b1df227a2b513479efba4f49c29c59cd695515efe076108234184df26c9fb"
+
+[[files]]
+file = "config/epicfight-common.toml"
+hash = "3bbe63933611314641de0348a1566f8c45fbba9b3ecef0e982b31c9bcba5fa11"
+
+[[files]]
+file = "config/fantasy_weapons.yml"
+hash = "82ebe8c1ff9d3eb69860811850529a9ea663eb03d34149093fa4254262acfcb1"
+
+[[files]]
+file = "config/invincible-common.toml"
+hash = "69dcb239ed318a34f15fcfc1cc01a2db99d99b6d797790e0cc5cc5958d7b4aa8"
+
+[[files]]
+file = "config/resurrection-common.toml"
+hash = "91126050cda1af8d0f1c831dad0547a1b47dfa7ee1af4de2c273263069693e14"
+
+[[files]]
+file = "config/wom-client.toml"
+hash = "768e59d23afcc8a81b6445e586cf070ea62f2209019a418ba5cfa6691fad3027"
+
+[[files]]
+file = "config/wom.toml"
+hash = "645183147f53cf8ccb04cae9f0062f53f2b8e18dd921acad1d3d8e1d0f55fd2a"
+
+[[files]]
+file = "mods/combat-evolution.pw.toml"
+hash = "1f95b023a232e6c7b9dfdffb0d2154d1838b7d992d82696991efdcd5e108f9bf"
+metafile = true
+
+[[files]]
+file = "mods/embeddium.pw.toml"
+hash = "a74b2d65c286896335b454f61f18be630d0f13767626ebb118584907d1d37112"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-fantasy-weapons-epicfied.pw.toml"
+hash = "1ab486cfeeb7b7f353d8af8348708b8adc999819461db67268881cca40ee2f06"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-guandao-moveset.pw.toml"
+hash = "271123decb811c282f9f187af8b271992acf18bfcda7907af6158e7133a0039f"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-invincible.pw.toml"
+hash = "ff857cf46ebf12d87fa3561fbea5e00e578269df54980aaae8a803a306043e21"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-mod-rapier-moveset-addon.pw.toml"
+hash = "f23c3b910fc4d7bd58738000df2fda2927f5928501c2a18ef8fad9bb7f4684a8"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-mod.pw.toml"
+hash = "cc04a459af3ff21b2aa09cde7ab562f33eb13c9d6d158c71d09cb4bc0bdee325"
+metafile = true
+
+[[files]]
+file = "mods/epicfight-clash-blade.pw.toml"
+hash = "deb0de6aac68b30427c222562c2be08a41068de21d7adc2e327621c80241b174"
+metafile = true
+
+[[files]]
+file = "mods/epicfight-extra.pw.toml"
+hash = "a88200778cfe671ea04cd5a232aa72e1609190554115df91e20e7c517128c81a"
+metafile = true
+
+[[files]]
+file = "mods/epicfight-resurrection.pw.toml"
+hash = "027867c783fc472a11ea414866f82ba45479d6e4b2cb93cf38e292d25437a84a"
+metafile = true
+
+[[files]]
+file = "mods/fantasy-weapons-medieval-series.pw.toml"
+hash = "b794c29d1024f579f6c9ab2ed740ca89e5946917942b40cc08ec267afa1cdefd"
+metafile = true
+
+[[files]]
+file = "mods/weapons-of-miracles-epicfight.pw.toml"
+hash = "4f14a075a267019de0d76ef41210f0b7e15a9c9aa0b7556d9567d986cd122648"
+metafile = true

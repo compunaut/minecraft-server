@@ -1,0 +1,13 @@
+name = "Epic Fight - Guandao Moveset"
+filename = "falchionmoveset-20.14.0.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "12fca2bc7c178c1d28aa0bb22191c636e8f0d7b2"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7416260
+project-id = 900642

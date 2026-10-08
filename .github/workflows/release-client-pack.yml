@@ -1,0 +1,29 @@
+name: Attach matching client pack to release
+on:
+  workflow_call:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: client-pack
+          path: dist
+      - name: Create release after successful multi-arch image publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          zip="dist/epic-fight-pack-${RELEASE_TAG}.zip"
+          test -f "$zip"
+          sha256sum "$zip" > "$zip.sha256"
+          notes="Matching server image: ghcr.io/compunaut/minecraft-server:${RELEASE_TAG}. Import the attached ZIP into CurseForge. Keep this profile synchronized with the server; do not update individual mods."
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo 'Release already exists; do not overwrite an immutable release.' >&2
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" "$zip" "$zip.sha256" --verify-tag --title "Glass House ${RELEASE_TAG}" --notes "$notes"

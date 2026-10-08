@@ -1,0 +1,13 @@
+name = "Epic Fight - Rapier Moveset Addon"
+filename = "refm-0.3.11-1.20.1.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "cbe0b2cc4682b6b20767b6e39568221bef4d7917"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8078907
+project-id = 1036425

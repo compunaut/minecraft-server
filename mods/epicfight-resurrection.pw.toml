@@ -1,0 +1,13 @@
+name = "EpicFight : Resurrection"
+filename = "EpicFight-Resurrection-forge1.20.1-0.20.12.2.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "418e4329ad4c6a2fa81bdff093b21bded6d64e68"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 6931390
+project-id = 1151542

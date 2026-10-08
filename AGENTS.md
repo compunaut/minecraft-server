@@ -1,0 +1,11 @@
+# Pack maintenance rules
+- Minecraft stays 1.20.1 and Forge stays the loader unless the user explicitly changes them.
+- Packwiz metadata is canonical. Server and client gameplay versions must match exactly.
+- Never substitute similarly named mods. Never add EWU / Epic Weaponry Unbound or Resurrection Vanillafied 3D.
+- Weapons of Miracles is allowed only as a dependency of Fantasy Weapons EpicFied.
+- Never commit worlds, player data, logs, secrets, runtime state, or generated JARs.
+- Prefer reproducible metadata over binary mod commits.
+- Before upgrading Epic Fight or any addon, validate downloads, declared mandatory dependencies, both server startup and a matching client joining. Automated checks do not prove gameplay compatibility.
+- Change mods through Packwiz, refresh the index, validate, bump pack.version, then publish a matching image and client release from one tag.
+- Do not change repo or package visibility. Keep GHCR private.
+- Use a branch and PR for changes. Do not publish a release or merge without user authorization.
