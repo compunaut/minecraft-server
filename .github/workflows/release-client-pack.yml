@@ -1,6 +1,16 @@
 name: Attach matching client pack to release
 on:
   workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      commit:
+        required: true
+        type: string
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -10,20 +20,38 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
+          ref: ${{ inputs.commit }}
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: client-pack
           path: dist
+      - name: Create or verify the release tag at the built commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          RELEASE_COMMIT: ${{ inputs.commit }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$RELEASE_TAG" = "v$(python3 scripts/pack.py version)"
+          git fetch origin --tags
+          if git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
+            test "$(git rev-parse "$RELEASE_TAG^{commit}")" = "$RELEASE_COMMIT"
+          else
+            gh api --method POST "repos/$GH_REPO/git/refs" \
+              -f ref="refs/tags/$RELEASE_TAG" -f sha="$RELEASE_COMMIT"
+          fi
       - name: Save the versioned ZIP in the repository download folder
         env:
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ inputs.tag }}
           TARGET_BRANCH: ${{ github.event.repository.default_branch }}
         run: scripts/publish-client-pack.sh "dist/epic-fight-pack-${RELEASE_TAG}.zip" "$RELEASE_TAG" "$TARGET_BRANCH"
       - name: Create release after successful multi-arch image publication
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ inputs.tag }}
         run: |
           set -euo pipefail
           zip="dist/epic-fight-pack-${RELEASE_TAG}.zip"
