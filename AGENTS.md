@@ -7,5 +7,5 @@
 - Prefer reproducible metadata over binary mod commits.
 - Before upgrading Epic Fight or any addon, validate downloads, declared mandatory dependencies, both server startup and a matching client joining. Automated checks do not prove gameplay compatibility.
 - Change mods through Packwiz, refresh the index, validate, bump pack.version, then publish a matching image and client release from one tag.
-- Keep the source repository and client ZIP releases private. The user has explicitly requested a public GHCR image; publish only the reviewed build/pack files, never worlds or secrets. Website visibility settings are managed by the user.
+- The user has made the repository public and requested a public GHCR image. Publish only reviewed metadata, configs, and versioned CurseForge-reference ZIPs under client-packs/. Never publish worlds or secrets. Website visibility settings are managed by the user.
 - Use a branch and PR for changes. Do not publish a release or merge without user authorization.

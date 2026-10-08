@@ -7,10 +7,18 @@ jobs:
   release:
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: client-pack
           path: dist
+      - name: Save the versioned ZIP in the repository download folder
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          TARGET_BRANCH: ${{ github.event.repository.default_branch }}
+        run: scripts/publish-client-pack.sh "dist/epic-fight-pack-${RELEASE_TAG}.zip" "$RELEASE_TAG" "$TARGET_BRANCH"
       - name: Create release after successful multi-arch image publication
         env:
           GH_TOKEN: ${{ github.token }}
@@ -26,6 +34,6 @@ jobs:
             echo 'Release already exists; do not overwrite an immutable release.' >&2
             exit 1
           fi
-          gh release create "$RELEASE_TAG" "$zip" "$zip.sha256" --verify-tag --draft --title "Glass House ${RELEASE_TAG}" --notes "$notes"
+          gh release create "$RELEASE_TAG" "$zip" "$zip.sha256" --verify-tag --draft --title "Epic Fight server and client pack ${RELEASE_TAG}" --notes "$notes"
           # Attach assets before publication so immutable releases attest the complete set.
           gh release edit "$RELEASE_TAG" --draft=false

@@ -33,3 +33,6 @@ packwiz-installer-bootstrap.jar
 __pycache__/
 .cache/
 dist/
+
+# Explicitly requested, versioned client import bundles (no bundled JARs).
+!client-packs/epic-fight-pack-v*.zip
