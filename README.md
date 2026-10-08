@@ -82,7 +82,7 @@ See Prism's [ZIP import guide](https://prismlauncher.org/wiki/getting-started/do
 
 ### Run the server
 
-1. Use a 64-bit Raspberry Pi OS or Ubuntu installation and install [Docker Engine](https://docs.docker.com/engine/install/debian/) with the Compose plugin. For Raspberry Pi OS, follow Docker's Raspberry Pi OS guidance on that page.
+1. Use a 64-bit Raspberry Pi OS or Ubuntu installation and install [Docker Engine](https://docs.docker.com/engine/install/debian/) with the Compose plugin. For Raspberry Pi OS, use the instructions for its corresponding Debian release; for Ubuntu, use [Docker's Ubuntu installation guide](https://docs.docker.com/engine/install/ubuntu/).
 2. Follow the Docker or Compose server instructions above. Docker selects the ARM64 image automatically.
 3. Adjust memory to your board: on an 8 GB Pi, start with `MEMORY=4G` instead of `16G`, leaving room for the OS and Java overhead.
 4. Wait for installation to finish in the server logs, then connect from a separate computer using the Pi's network address and the matching client pack.
