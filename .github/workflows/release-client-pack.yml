@@ -5,9 +5,9 @@ permissions:
   contents: write
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: client-pack
           path: dist
@@ -26,4 +26,6 @@ jobs:
             echo 'Release already exists; do not overwrite an immutable release.' >&2
             exit 1
           fi
-          gh release create "$RELEASE_TAG" "$zip" "$zip.sha256" --verify-tag --title "Glass House ${RELEASE_TAG}" --notes "$notes"
+          gh release create "$RELEASE_TAG" "$zip" "$zip.sha256" --verify-tag --draft --title "Glass House ${RELEASE_TAG}" --notes "$notes"
+          # Attach assets before publication so immutable releases attest the complete set.
+          gh release edit "$RELEASE_TAG" --draft=false
