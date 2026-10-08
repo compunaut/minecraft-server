@@ -7,7 +7,7 @@ A Minecraft Java Edition **1.20.1** modpack featuring **Epic Fight 20.14.17**, r
 - **Server:** `ghcr.io/compunaut/minecraft-server:latest`
 - **Client:** versioned ZIPs in [client-packs/](client-packs/), also available from [Releases](https://github.com/compunaut/minecraft-server/releases).
 
-Client ZIPs are added to the download folder by the release workflow when a version tag is published. Before the first release, the ZIP is available as the `client-pack` artifact on a successful [Actions build](https://github.com/compunaut/minecraft-server/actions).
+Client ZIPs are added to the download folder automatically when a new pack version is released. Before the first release, the ZIP is available as the `client-pack` artifact on a successful [Actions build](https://github.com/compunaut/minecraft-server/actions).
 
 ## Run the server with Docker
 
@@ -106,6 +106,14 @@ docker start epic-fight       # Start it again
 For Compose deployments, use `docker compose logs -f`, `docker compose down`, and `docker compose up -d`.
 
 Stop the server before backing up the entire `minecraft-data/` directory. Before upgrading, make a backup and choose the matching release image and client ZIP. For Compose, change `IMAGE_TAG`, then run `docker compose pull` and `docker compose up -d`. Restore the pre-upgrade backup when rolling back.
+
+## Releases
+
+Every successful build on `main` updates the `latest` server image. If the version in `pack.toml` has no published version tag yet, that build also publishes `vX.Y.Z`: a matching GHCR image, a GitHub Release, and the client ZIP/checksum in `client-packs/`.
+
+To release an update, increment the pack version in a reviewed PR and merge it into `main`. Validation and the AMD64/ARM64 image build must pass before the workflow creates the tag and release. Documentation changes with an already released pack version update `latest` without creating another release. The first successful main build after enabling automation releases the current version if it is still untagged.
+
+Manual version-tag builds remain supported; the tag must match the pack version. Published versions are never overwritten. The workflow uses GitHub's built-in token, so its generated tag and ZIP commit do not trigger another build.
 
 ## Distribution and reproducibility
 
