@@ -1,7 +1,9 @@
 # Multi-platform Java 17 base; manifest digest verified for amd64 and arm64.
-FROM itzg/minecraft-server:java17@sha256:044c379600c07cd58156e07511c68282501edeee8bc8212d0a6d8b6a3fb4185c
+FROM itzg/minecraft-server:2026.9.2-java17@sha256:0198cb9f0c7e7b1747645040e1245a6915c122662f3106f3b0979473a953ab61
 USER root
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-tomli && rm -rf /var/lib/apt/lists/*
+COPY docker/tomli-requirements.txt /opt/tomli-requirements.txt
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip && rm -rf /var/lib/apt/lists/* \
+    && pip3 install --no-cache-dir --no-deps --require-hashes -r /opt/tomli-requirements.txt
 COPY pack.toml index.toml /opt/pack/
 COPY mods/ /opt/pack/mods/
 COPY config/ /opt/pack/config/
