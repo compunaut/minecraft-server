@@ -1,0 +1,18 @@
+services:
+  minecraft:
+    image: ghcr.io/compunaut/minecraft-server:${IMAGE_TAG:-v1.0.0}
+    # Automatically selects amd64 on Intel or arm64 on Apple Silicon / 64-bit Pi OS.
+    ports:
+      - "25565:25565/tcp"
+    environment:
+      EULA: "${EULA:-FALSE}"
+      MEMORY: "${MEMORY:-16G}"
+      JVM_OPTS: "${JVM_OPTS:-}"
+      ENABLE_RCON: "false"
+      OVERRIDE_SERVER_PROPERTIES: "false"
+    volumes:
+      - ./minecraft-data:/data
+    restart: unless-stopped
+    stop_grace_period: 2m
+    stdin_open: true
+    tty: true

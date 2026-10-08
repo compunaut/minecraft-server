@@ -1,0 +1,11 @@
+*
+!docker/
+!docker/**
+!scripts/
+!scripts/pack.py
+!mods/
+!mods/*.pw.toml
+!config/
+!config/**
+!pack.toml
+!index.toml

@@ -1,0 +1,13 @@
+name = "EpicFight : Clash Blade"
+filename = "Epicfight-ClashBlade-1.20.1-2.1.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "f6c8dd62f22af6f94ec028b3807c3fa39fa09ba1"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7973024
+project-id = 1408812

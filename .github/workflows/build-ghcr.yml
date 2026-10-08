@@ -1,0 +1,81 @@
+name: Validate pack and build GHCR image
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.0'
+      - name: Install pinned Packwiz
+        run: |
+          GOBIN="$RUNNER_TEMP/bin" scripts/install-packwiz.sh
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+      - name: Verify version, downloads and declared dependencies
+        run: |
+          scripts/validate-pack.sh --fetch
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            test "$GITHUB_REF_NAME" = "v$(python3 scripts/pack.py version)"
+          fi
+      - name: Export and verify CurseForge client ZIP
+        run: scripts/build-client-pack.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: client-pack
+          path: dist/epic-fight-pack-v*.zip
+          if-no-files-found: error
+  image:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/compunaut/minecraft-server
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=sha,format=long
+            type=ref,event=tag
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            org.opencontainers.image.source=https://github.com/compunaut/minecraft-server
+            org.opencontainers.image.description=Private Glass House Forge Epic Fight pack
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [validate, image]
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release-client-pack.yml

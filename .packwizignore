@@ -1,0 +1,15 @@
+/.git/**
+/.github/**
+/docker/**
+/scripts/**
+/docs/**
+/dist/**
+/.cache/**
+/README.md
+/AGENTS.md
+/.gitignore
+/.dockerignore
+/.packwizignore
+/docker-compose.yml
+/.env.example
+/requirements.txt
