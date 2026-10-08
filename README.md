@@ -1,6 +1,6 @@
 # Glass House: private Epic Fight server and client pack
 
-This repository is the source of truth for Minecraft **1.20.1**, **Forge 47.4.10**, the eleven tested Epic Fight gameplay mods, and **Embeddium 0.3.31** on clients only. Packwiz pins every CurseForge project, file ID, filename, side, and checksum. The server image and client ZIP derive from the same commit and release tag. The repository and GHCR package must remain private.
+This repository is the source of truth for Minecraft **1.20.1**, **Forge 47.4.10**, the eleven tested Epic Fight gameplay mods, and **Embeddium 0.3.31** on clients only. Packwiz pins every CurseForge project, file ID, filename, side, and checksum. The server image and client ZIP derive from the same commit and release tag. The source repository and client ZIP releases remain private. The GHCR image is intended for public pulls after the owner sets its package visibility to Public.
 
 ## First deployment
 
@@ -12,18 +12,17 @@ Clone this repository on the server host. Copy `.env.example` to `.env`. Read [M
 
 The default maximum heap is **16G** for the owner's 64 GB Mac. Set `MEMORY=4G` for an 8 GB Raspberry Pi 5, leaving space for the OS and Java overhead; tune view/simulation distances after testing. `JVM_OPTS` adds flags, but do not put competing `-Xmx` or `-Xms` flags in it. This is a Java heap limit, not a container-wide RAM limit.
 
-To pull a private GHCR package, create a GitHub **personal access token (classic)** with `read:packages` for an account allowed to access the package (authorize organization SSO if applicable). Enter it using standard input; do not put it in shell history or this repository:
+Once the owner makes the GHCR package Public, no login is required:
 
 ```sh
-read -s GHCR_TOKEN
-printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
-unset GHCR_TOKEN
 docker compose pull
 docker compose up -d
 docker compose logs -f
 ```
 
-GitHub Actions uses its built-in `GITHUB_TOKEN` with `packages:write`; no saved PAT or mod download secret is needed for builds. Verify Actions is enabled, allowed to write packages and release contents, and permitted to use the referenced actions. In package settings, keep visibility **Private**, link the repository, and grant its Actions workflow access if an existing package does not inherit it. Give players repository access to download the private release, or share the ZIP through an agreed private channel. Players do not need container registry access.
+Until that setting is applied, pulls require a GitHub account with package access and a classic PAT with `read:packages`, supplied to `docker login ghcr.io` using `--password-stdin`. Never put tokens in shell history or this repo. Public GHCR visibility does not expose the private source repo, private client ZIP releases, or any world data.
+
+GitHub Actions uses its built-in `GITHUB_TOKEN` with `packages:write`; no saved PAT or mod download secret is needed for builds. Verify Actions is enabled, allowed to write packages and release contents, and permitted to use the referenced actions. In package settings, the owner should set visibility **Public**, keep the repository linked, and grant its Actions workflow access if an existing package does not inherit it. Give players repository access to download the private release, or share the ZIP through an agreed private channel. Players do not need container registry access.
 
 ## Existing world and local server
 
@@ -110,3 +109,13 @@ The imported local folder had eleven matching gameplay mods and no Embeddium met
 The old index contained player/runtime files and libraries. It was rebuilt from selected mod metadata and reviewed gameplay configs only. No worlds, player lists, server addresses, logs, binaries or resource packs were imported. EWU and Resurrection Vanillafied 3D are excluded. Weapons of Miracles is retained as the Fantasy Weapons EpicFied dependency.
 
 The image uses the maintained [itzg server](https://github.com/itzg/docker-minecraft-server) for Forge installation, JVM settings and graceful shutdown. A small wrapper reads the baked-in Packwiz metadata and verifies/downloads the exact server files before delegating to its runner. This avoids serving private metadata over HTTP and keeps credentials out of the image. The canonical loader cannot be overridden through environment variables. Full amd64/arm64 startup, clean shutdown and a client joining must be tested before the first production release; a successful image build alone is insufficient.
+
+## Workflow runtimes and attestations
+
+Both workflows use Ubuntu 24.04 explicitly. All JavaScript actions are pinned to verified Node 24 revisions, with readable major-version comments. Go dependency caching is disabled because this is a Packwiz-managed pack, not a Go module with a `go.sum` file.
+
+Published GHCR images include BuildKit `mode=max` provenance and an SPDX SBOM attestation for each architecture. Provenance records the build definition and source revision; no secrets are passed through build arguments. The SBOM covers software in the container image. Gameplay mod JARs downloaded at runtime are not in the image SBOM; their identities and hashes remain in the canonical Packwiz metadata. These BuildKit attestations describe the build and are not a claim that the image has been separately signed by GitHub's artifact-attestation service.
+
+For signed GitHub release attestations on client ZIPs, the owner enables **Settings → Releases → Enable release immutability** on GitHub. This applies to future releases and automatically creates a release attestation covering the tag, commit, and assets. The release workflow creates a draft with its ZIP and checksum attached, then publishes it so the complete asset set is locked together. Existing releases and previously shared ZIP files are not changed. The owner manages these website settings; the workflow cannot silently enable repository immutability or package visibility.
+
+See [GitHub immutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases) and [Docker attestations](https://docs.docker.com/build/ci/github-actions/attestations/).
