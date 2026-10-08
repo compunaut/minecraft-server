@@ -22,7 +22,7 @@ def digest(p, algorithm='sha256'):
     return h.hexdigest()
 
 # Required project identities prevent substitutions; versions live only in Packwiz.
-REQUIRED = {405076,1434276,1408812,1377795,1151542,900642,1225584,1036425,1184379,1090102,918614}
+REQUIRED = {405076,1434276,1408812,1377795,1151542,900642,1225584,1036425,1184379,1090102,918614,689467}
 EMBEDDIUM = 908741
 
 def read_pack(root):
@@ -165,7 +165,7 @@ def check_zip(pack,mods,path):
         for n in z.namelist():
             require('..' not in Path(n).parts and not n.startswith('/'),'Unsafe ZIP path')
             require(n in allowed or n.startswith('overrides/config/') or n=='overrides/','Unexpected ZIP content: '+n)
-    print('CurseForge ZIP matches all 12 pinned mods and exact loader version')
+    print(f'CurseForge ZIP matches all {len(mods)} pinned mods and exact loader version')
 
 def install(root,pack,index,mods,data):
     data.mkdir(parents=True,exist_ok=True); statefile=data/'.pack-state.json'
@@ -218,7 +218,7 @@ def main():
             with tempfile.TemporaryDirectory() as t:
                 paths={m['filename']:fetch(m,Path(t),args.local_mods) for m in mods}
                 for side in ('server','client'):dependencies(pack,mods,paths,side)
-        print('Validated 12 pinned mods, sides, loader, safe index, and integrity hashes')
+        print(f'Validated {len(mods)} pinned mods, sides, loader, safe index, and integrity hashes')
 
 if __name__=='__main__':
     try:main()

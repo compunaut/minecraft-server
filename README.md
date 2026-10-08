@@ -36,7 +36,7 @@ From a checkout of this repository:
 cp .env.example .env
 ```
 
-Set `EULA=TRUE` in `.env` and choose an available `IMAGE_TAG` (`latest` or a release such as `v1.0.0`). Adjust `MEMORY` if needed, then start:
+Set `EULA=TRUE` in `.env` and choose an available `IMAGE_TAG` (`latest` or a release such as `v1.0.1`). Adjust `MEMORY` if needed, then start:
 
 ```sh
 docker compose pull
@@ -94,6 +94,12 @@ An ARM64 image is provided, but this modpack's performance on Raspberry Pi has n
 Use a 64-bit desktop OS, the ARM64 version of [Prism Launcher](https://prismlauncher.org/download/linux/), and ARM64 Java 17. Follow the Linux ZIP import steps above. Prism also lists a Pi-Apps installation option.
 
 Launcher availability does not guarantee that this Epic Fight pack runs well on a Pi; its graphics compatibility and gameplay performance on that hardware have not been verified. Minecraft Pi Edition and Bedrock Edition cannot join this Java/Forge server.
+
+## Troubleshooting connection errors
+
+If joining fails with **Payload may not be larger than 32767 bytes**, use pack **1.0.1 or newer**, which includes Packet Fixer on both server and client. Restart Minecraft after importing the matching ZIP; the server also needs a restart after installing a new mod.
+
+For an existing 1.0.0 client profile on Windows, close Minecraft, download [Packet Fixer 3.3.2 (the pinned 1.20.1-compatible file)](https://www.curseforge.com/minecraft/mc-mods/packet-fixer/files/7872374), then use CurseForge's profile menu → **Open Folder** and place `packetfixer-3.3.2-1.18-1.20.4-merged.jar` in `mods/`. Launch that profile again. Importing the complete updated ZIP is preferred for keeping the pack synchronized.
 
 ## Manage the server
 

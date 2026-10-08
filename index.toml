@@ -92,6 +92,11 @@ hash = "b794c29d1024f579f6c9ab2ed740ca89e5946917942b40cc08ec267afa1cdefd"
 metafile = true
 
 [[files]]
+file = "mods/packet-fixer.pw.toml"
+hash = "c1629f045dd324a286871a1d2503bb0cf22cdb8a354da2d07dc7cef3e9afcada"
+metafile = true
+
+[[files]]
 file = "mods/weapons-of-miracles-epicfight.pw.toml"
 hash = "4f14a075a267019de0d76ef41210f0b7e15a9c9aa0b7556d9567d986cd122648"
 metafile = true
